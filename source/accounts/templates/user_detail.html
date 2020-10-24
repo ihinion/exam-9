@@ -27,4 +27,8 @@
         <p>About: {% if user_obj.profile.about %}{{ user_obj.profile.about }}{% else %}No details :/{% endif %}</p>
         </div>
     </div>
+    <hr>
+    {% for obj in user_obj.photo_favorites.all %}
+        {% include 'partial/photo_card.html' with photo=obj.photo %}
+    {% endfor %}
 {% endblock %}

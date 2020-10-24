@@ -26,6 +26,6 @@
 <hr>
 <h3>Users who have this photo as favorite:</h3>
     {% for fav in photo.favorites.all %}
-    <p><a href="{% url 'accounts:detail' fav.author.pk %}">{{ fav.author }}</a></p>
+        <p><a href="{% url 'accounts:detail' fav.user.pk %}">{{ fav.user.username }}</a></p>
     {% endfor %}
 {% endblock %}

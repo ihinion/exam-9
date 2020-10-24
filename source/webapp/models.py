@@ -11,11 +11,11 @@ class Photo(models.Model):
 
 
 class Favorite(models.Model):
-    author = models.ForeignKey(get_user_model(), related_name='photo_favorites', verbose_name='Author',
+    user = models.ForeignKey(get_user_model(), related_name='photo_favorites', verbose_name='User',
                              on_delete=models.CASCADE)
     photo = models.ForeignKey('webapp.Photo', on_delete=models.CASCADE, related_name='favorites',
                                 verbose_name='Photo')
 
-    def __str__(self):
-        return f'{self.author.username} - {self.photo.desc}'
+    # def __str__(self):
+    #     return f'{self.author.username} - {self.photo.desc}'
 
