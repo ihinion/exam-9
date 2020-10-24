@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Gallery{% endblock %}
+{% block content %}
+    {% if photos %}
+        {% for photo in photos %}
+            {% include 'partial/photo_card.html' %}
+        {% endfor %}
+    {% else %}
+        <h2 class="my-5">No photos yet</h2>
+    {% endif %}
+    {% if request.user.is_authenticated and perms.webapp.add_photo %}
+        <a class="btn btn-primary btn-lg btn-block mb-4" href="#" role="button">Add photo</a>
+    {% endif %}
+{% endblock %}

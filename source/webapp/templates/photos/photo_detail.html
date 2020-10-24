@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Photo {{ photo.pk }} {% endblock %}}
+{% block content %}
+{% load staticfiles %}
+<div class="card bg-light mb-3">
+    <div class="card-body">
+        <img src="{{ photo.picture.url }}" class="align-self-start mr-3" alt="photo">
+        <p><b>Description:</b> {{ photo.desc }}  <br>
+        <p><b>Author:</b> {{ photo.author.username }} <br>
+        <p><b>Date:</b> {{ photo.created_at }} <br>
+        <div class="form-inline">
+            {% if 'photo' not in request.path %}
+                <a class="btn btn-primary btn-sm mr-3" href="{% url 'webapp:photo_detail' photo.pk %}" role="button">View</a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+                {% if perms.webapp.change_photo %}
+                    <a class="btn btn-info btn-sm mr-3" href="{% url 'webapp:photo_update' photo.pk %}" role="button">Update</a>
+                {% endif %}
+                {% if perms.webapp.delete_photo %}
+                    <a class="btn btn-danger btn-sm mr-3" href={% url 'webapp:photo_delete' photo.pk %} role="button">Delete</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<hr>
+<h3>Users who have this photo as favorite:</h3>
+    {% for fav in photo.favorites.all %}
+    <p><a href="{% url 'accounts:detail' fav.author.pk %}">{{ fav.author }}</a></p>
+    {% endfor %}
+{% endblock %}

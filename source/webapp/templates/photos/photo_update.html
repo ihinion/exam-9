@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Update photo{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2 class="my-3">Update photo</h2>
+        <img src="{{ photo.picture.url }}" width="200" height="auto" alt="photo">
+        {% url "photo_update" pk=photo.pk as action_url %}
+        {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Update' enctype="multipart/form-data"%}
+        <a class="btn btn-info mt-2" href="{% url 'webapp:photo_detail' photo.pk %}" role="button">View photo</a><br>
+    </div>
+{% endblock %}
