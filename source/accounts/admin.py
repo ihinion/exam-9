@@ -4,6 +4,10 @@ from django.contrib.auth.admin import UserAdmin
 from accounts.models import Profile
 from webapp.models import Photo, Favorite
 
+# юзернейм - пароль
+# admin admin / суперюзер
+# test test / пользователь без прав
+# test2 test2 / пользователь с правами на удаление и редактирование всех фотографий
 
 class ProfileInline(admin.StackedInline):
     model = Profile
