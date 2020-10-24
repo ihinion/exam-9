@@ -1,12 +1,12 @@
 {% load staticfiles %}
 {% load favorites %}
-<div class="card bg-light mb-3">
+<div class="card bg-light mb-5">
     <div class="card-body">
     <div class="media">
         <img src="{{ photo.picture.url }}" class="align-self-start mr-3" width="200" height="auto" alt="photo">
         <div class="media-body">
             <p><b>Description:</b> {{ photo.desc }}<br>
-            <p><b>Author:</b> {{ photo.author.username }}<br>
+            <p><b>Author:</b> <a href="{% url 'accounts:detail' photo.author.pk %}">{{ photo.author.username }}</a> <br>
             <p><b>Date:</b> {{ photo.created_at }}<br>
             {% if user.is_authenticated %}
                 <p>

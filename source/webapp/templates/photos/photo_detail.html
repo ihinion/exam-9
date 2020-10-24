@@ -5,9 +5,9 @@
 {% load staticfiles %}
 <div class="card bg-light mb-3">
     <div class="card-body">
-        <img src="{{ photo.picture.url }}" class="align-self-start mr-3" alt="photo">
+        <img src="{{ photo.picture.url }}" class="align-self-start mr-3 mb-3" alt="photo">
         <p><b>Description:</b> {{ photo.desc }}  <br>
-        <p><b>Author:</b> {{ photo.author.username }} <br>
+        <p><b>Author:</b> <a href="{% url 'accounts:detail' photo.author.pk %}">{{ photo.author.username }}</a> <br>
         <p><b>Date:</b> {{ photo.created_at }} <br>
         {% if user.is_authenticated %}
         <p>
@@ -33,11 +33,26 @@
     </div>
 </div>
 <hr>
-<h3>Users who have this photo as favorite:</h3>
+<h3 class="my-3" style="color: darkblue">Users who liked this photo:</h3>
+{% if photo.favorites.all %}
     {% for fav in photo.favorites.all %}
-        <p><a href="{% url 'accounts:detail' fav.user.pk %}">{{ fav.user.username }}</a></p>
+        <div class="media mb-3">
+        {% if fav.user.profile.profile_pic %}
+          <a href="{% url 'accounts:detail' fav.user.pk %}"><img src="{{ fav.user.profile.profile_pic.url }}" class="align-self-start mr-3" width="50" height="auto" alt="user picture"></a>
+            {% else %}
+            <a href="{% url 'accounts:detail' fav.user.pk %}"><img src="{% static 'no_avatar.jpg' %}" class="align-self-start mr-3" width="50" height="auto" alt="user picture" alt="..."></a>
+            {% endif %}
+          <div class="media-body">
+              <a href="{% url 'accounts:detail' fav.user.pk %}" class="mt-0">{{ fav.user.username }}</a>
+            <h5 ></h5>
+          </div>
+        </div>
     {% endfor %}
+{% else %}
+    <p class="mb-5">This photo has not been added to favorites yet</p>
+{% endif %}
 {% endblock %}
+
 {% block scripts %}
     <script type="application/javascript" src="{% static 'js/favorite.js' %}"></script>
 {% endblock %}
