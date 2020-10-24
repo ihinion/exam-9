@@ -48,7 +48,7 @@ class PhotoDeleteView(UserPassesTestMixin, DeleteView):
     template_name = 'photos/photo_delete.html'
     model = Photo
     success_url = reverse_lazy('webapp:index')
-    
+
     def test_func(self):
         return self.request.user.has_perm('webapp.delete_photo') or \
             self.get_object().author == self.request.user

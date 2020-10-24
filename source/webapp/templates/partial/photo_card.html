@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load favorites %}
 <div class="card bg-light mb-3">
     <div class="card-body">
     <div class="media">
@@ -7,15 +8,23 @@
             <p><b>Description:</b> {{ photo.desc }}<br>
             <p><b>Author:</b> {{ photo.author.username }}<br>
             <p><b>Date:</b> {{ photo.created_at }}<br>
+            {% if user.is_authenticated %}
+                <p>
+                    {% with photo|liked_by:user as liked %}
+                        <a class="{% if liked %}hidden{% endif %} like btn btn-success btn-sm" href="{% url 'api:like' photo.pk %}">Add to favorite</a>
+                        <a class="{% if not liked %}hidden{% endif %} unlike btn btn-warning btn-sm" href="{% url 'api:unlike' photo.pk %}">Remove from favorite</a>
+                    {% endwith %}
+                </p>
+            {% endif %}
             <div class="form-inline">
                 {% if 'photo' not in request.path %}
                     <a class="btn btn-primary btn-sm mr-3" href="{% url 'webapp:photo_detail' photo.pk %}" role="button">View</a>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                    {% if perms.webapp.change_photo %}
+                    {% if perms.webapp.change_photo or photo.author == request.user %}
                         <a class="btn btn-info btn-sm mr-3" href="{% url 'webapp:photo_update' photo.pk %}" role="button">Update</a>
                     {% endif %}
-                    {% if perms.webapp.delete_photo %}
+                    {% if perms.webapp.delete_photo or photo.author == request.user %}
                         <a class="btn btn-danger btn-sm mr-3" href="{% url 'webapp:photo_delete' photo.pk %}" role="button">Delete</a>
                     {% endif %}
                 {% endif %}

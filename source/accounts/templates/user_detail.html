@@ -18,7 +18,7 @@
         {% if user_obj.profile.profile_pic %}
             <img src="{{ user_obj.profile.profile_pic.url }}" class="align-self-start mr-3" width="250" height="auto" alt="user picture">
         {% else %}
-            <img src="{% static 'no_pic.png' %}" class="align-self-start mr-3" width="250" height="auto" alt="user picture">
+            <img src="{% static 'no_avatar.jpg' %}" class="align-self-start mr-3" width="250" height="auto" alt="user picture">
         {% endif %}
         <div class="media-body">
         <h5 class="mt-0">Page of {{ user_obj.get_first_name|default:user_obj.username }}</h5>
@@ -28,7 +28,14 @@
         </div>
     </div>
     <hr>
+    <h3 class="my-3" style="color: darkblue">Photos liked by {{ user_obj.username }}:</h3>
     {% for obj in user_obj.photo_favorites.all %}
         {% include 'partial/photo_card.html' with photo=obj.photo %}
     {% endfor %}
+    {% if not user_obj.photo_favorites.all %}
+        <p>This user has not liked any photos yet</p>
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+    <script type="application/javascript" src="{% static 'js/favorite.js' %}"></script>
 {% endblock %}
